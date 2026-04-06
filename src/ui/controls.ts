@@ -101,13 +101,13 @@ export function sliderRow(
         let resolved = false;
         let dragging = false;
 
+        // Prevent native range-input drag; touch-action: pan-y still allows scrolling
         e.preventDefault();
-        slider.setPointerCapture(pid);
 
         const cleanup = () => {
-            slider.removeEventListener('pointermove', onMove);
-            slider.removeEventListener('pointerup', onUp);
-            slider.removeEventListener('pointercancel', cleanup);
+            window.removeEventListener('pointermove', onMove);
+            window.removeEventListener('pointerup', onUp);
+            slider.removeEventListener('pointercancel', onCancel);
         };
 
         const onMove = (ev: PointerEvent) => {
@@ -133,9 +133,16 @@ export function sliderRow(
             }
         };
 
-        slider.addEventListener('pointermove', onMove);
-        slider.addEventListener('pointerup', onUp);
-        slider.addEventListener('pointercancel', cleanup);
+        // Browser fires pointercancel when touch-action: pan-y takes over for
+        // scrolling — no pointerup follows, so we must clean up here.
+        const onCancel = (ev: PointerEvent) => {
+            if (ev.pointerId !== pid) return;
+            cleanup();
+        };
+
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+        slider.addEventListener('pointercancel', onCancel);
     });
 
     slider.addEventListener('input', () => {
