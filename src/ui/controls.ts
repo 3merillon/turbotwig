@@ -95,15 +95,23 @@ export function sliderRow(
     }
 
     slider.addEventListener('pointerdown', (e) => {
+        const pid = e.pointerId;
         const startX = e.clientX;
         const startY = e.clientY;
         let resolved = false;
         let dragging = false;
 
-        // Prevent slider from immediately capturing the pointer
         e.preventDefault();
+        slider.setPointerCapture(pid);
+
+        const cleanup = () => {
+            slider.removeEventListener('pointermove', onMove);
+            slider.removeEventListener('pointerup', onUp);
+            slider.removeEventListener('pointercancel', cleanup);
+        };
 
         const onMove = (ev: PointerEvent) => {
+            if (ev.pointerId !== pid) return;
             if (!resolved) {
                 const dx = Math.abs(ev.clientX - startX);
                 const dy = Math.abs(ev.clientY - startY);
@@ -116,17 +124,18 @@ export function sliderRow(
             }
         };
 
-        const onUp = () => {
-            window.removeEventListener('pointermove', onMove);
-            window.removeEventListener('pointerup', onUp);
+        const onUp = (ev: PointerEvent) => {
+            if (ev.pointerId !== pid) return;
+            cleanup();
             // If never moved past threshold, treat as a click
             if (!resolved) {
                 updateSliderFromPointer(startX);
             }
         };
 
-        window.addEventListener('pointermove', onMove);
-        window.addEventListener('pointerup', onUp);
+        slider.addEventListener('pointermove', onMove);
+        slider.addEventListener('pointerup', onUp);
+        slider.addEventListener('pointercancel', cleanup);
     });
 
     slider.addEventListener('input', () => {

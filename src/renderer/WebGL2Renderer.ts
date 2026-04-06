@@ -992,6 +992,7 @@ export class WebGL2Renderer {
         this.barkProg.set1i(hasUniform, 1);
         texUnit++;
       } else {
+        this.barkProg.set1i(uniform, 0);
         this.barkProg.set1i(hasUniform, 0);
       }
     };
@@ -1048,6 +1049,7 @@ export class WebGL2Renderer {
       this.leafProg.set1i('uHasNormal', 1);
       texUnit++;
     } else {
+      this.leafProg.set1i('uNormalMap', 0);
       this.leafProg.set1i('uHasNormal', 0);
     }
     this.bindShadowTexture(this.leafProg, texUnit);
