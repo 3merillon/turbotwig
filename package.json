@@ -1,0 +1,32 @@
+{
+  "name": "turbotwig",
+  "version": "0.0.0",
+  "description": "Open-source procedural tree and vegetation generator for the web — L-systems, WebGL 2.0 PBR rendering, and glTF export.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "generate-normals": "tsx scripts/generate-normals.ts",
+    "generate-leaf-normals": "tsx scripts/generate-leaf-normals.ts",
+    "generate-displacement": "tsx scripts/generate-displacement.ts",
+    "generate-icons": "tsx scripts/generate-icons.ts",
+    "lint": "eslint src/",
+    "format": "prettier --write \"src/**/*.{ts,css}\""
+  },
+  "dependencies": {
+    "manifold-3d": "^3.4.1",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.0.0",
+    "vite": "^6.0.0",
+    "vite-plugin-glsl": "^1.3.0"
+  },
+  "license": "MIT"
+}

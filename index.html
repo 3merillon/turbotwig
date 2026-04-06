@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TurboTwig — Procedural Tree & Vegetation Generator for the Web</title>
+  <meta name="description" content="Open-source procedural 3D tree generator built with TypeScript and WebGL 2.0. L-system grammars, PBR rendering, wind animation, and glTF export — in your browser." />
+  <meta name="keywords" content="procedural tree generator, L-system, WebGL tree, 3D vegetation, foliage generator, glTF export, open source, TypeScript, browser 3D, procedural generation" />
+  <meta name="author" content="TurboTwig" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <link rel="canonical" href="https://turbotwig.com/" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TurboTwig" />
+  <meta property="og:title" content="TurboTwig — Procedural Tree & Vegetation Generator for the Web" />
+  <meta property="og:description" content="Open-source procedural 3D tree generator built with TypeScript and WebGL 2.0. L-system grammars, PBR rendering, wind animation, and glTF export — in your browser." />
+  <meta property="og:url" content="https://turbotwig.com/" />
+  <meta property="og:image" content="https://turbotwig.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TurboTwig — Procedural Tree & Vegetation Generator for the Web" />
+  <meta name="twitter:description" content="Open-source procedural 3D tree generator built with TypeScript and WebGL 2.0. L-system grammars, PBR rendering, wind animation, and glTF export — in your browser." />
+  <meta name="twitter:image" content="https://turbotwig.com/og-image.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TurboTwig",
+    "description": "Open-source procedural 3D tree generator built with TypeScript and WebGL 2.0. L-system grammars, PBR rendering, wind animation, and glTF export — in your browser.",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Web",
+    "url": "https://turbotwig.com/",
+    "image": "https://turbotwig.com/og-image.png",
+    "license": "https://opensource.org/licenses/MIT",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #1a1a2e; }
+    #app { width: 100%; height: 100%; }
+    canvas { display: block; opacity: 0; transition: opacity 0.6s ease-in; }
+    canvas.tt-ready { opacity: 1; }
+
+    #loading {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+      background: #1a1a2e;
+      opacity: 1; transition: opacity 0.5s ease-out;
+      pointer-events: none;
+      padding: 3rem 1rem 4.5rem;
+    }
+    #loading.tt-fade-out { opacity: 0; }
+
+    .tt-splash-icon {
+      width: 64px; height: 64px;
+      color: #4fc3f7;
+      filter: drop-shadow(0 0 12px rgba(79, 195, 247, 0.35));
+    }
+
+    .tt-splash-text {
+      color: #8892b0;
+      font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
+      font-size: 1.1rem; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .tt-splash-tagline {
+      color: #8892b0; opacity: 0.8;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.85rem; line-height: 1.5;
+      max-width: 560px; text-align: center;
+      padding: 0 1.5rem; margin: 0;
+    }
+    .tt-splash-features {
+      color: #8892b0; opacity: 0.6;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.72rem; line-height: 1.6;
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 0.25rem 1rem; max-width: 560px;
+      text-align: center;
+    }
+    .tt-splash-features li::before { content: "— "; opacity: 0.5; }
+    .tt-splash-about {
+      color: #8892b0; opacity: 0.5;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.72rem; line-height: 1.5;
+      max-width: 480px; text-align: center;
+      padding: 0 1.5rem; margin: 0;
+    }
+
+    .tt-splash-section-label {
+      color: #4fc3f7; opacity: 0.55;
+      font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin: 0.4rem 0 -0.6rem 0;
+    }
+    .tt-splash-usecases {
+      color: #8892b0; opacity: 0.65;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.72rem; line-height: 1.6;
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 0.25rem 1.1rem; max-width: 620px;
+      text-align: center;
+    }
+    .tt-splash-usecases li::before { content: "◆ "; color: #4fc3f7; opacity: 0.4; }
+    .tt-splash-stack {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 0.4rem; max-width: 620px;
+      padding: 0 1.5rem;
+    }
+    .tt-splash-stack span {
+      color: #8892b0; opacity: 0.7;
+      font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.62rem; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid rgba(79, 195, 247, 0.15);
+      border-radius: 3px;
+      background: rgba(79, 195, 247, 0.04);
+    }
+    .tt-splash-footer {
+      position: absolute; bottom: 1.5rem; left: 0; right: 0;
+      display: flex; justify-content: center; align-items: center;
+      gap: 1.5rem;
+      color: #8892b0; opacity: 0.45;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.68rem; letter-spacing: 0.05em;
+      pointer-events: auto;
+    }
+    .tt-splash-footer a {
+      color: #8892b0; text-decoration: none;
+      border-bottom: 1px solid rgba(136, 146, 176, 0.3);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tt-splash-footer a:hover { color: #4fc3f7; border-bottom-color: #4fc3f7; }
+    .tt-splash-footer .sep { opacity: 0.4; }
+    .tt-splash-loading {
+      color: #4fc3f7; opacity: 0.55;
+      font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-top: 0.8rem;
+      animation: tt-pulse 1.6s ease-in-out infinite;
+    }
+    .tt-splash-loading::after {
+      content: "";
+      animation: tt-dots 1.4s steps(4, end) infinite;
+    }
+
+    @keyframes tt-pulse {
+      0%, 100% { opacity: 0.35; }
+      50%      { opacity: 0.75; }
+    }
+    @keyframes tt-dots {
+      0%   { content: ""; }
+      25%  { content: "."; }
+      50%  { content: ".."; }
+      75%  { content: "..."; }
+    }
+
+    @keyframes tt-wind {
+      0%, 100% { transform: rotate(0deg); }
+      30%      { transform: rotate(-6deg); }
+      70%      { transform: rotate(5deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="loading">
+      <svg class="tt-splash-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+        <line x1="12" y1="22" x2="12" y2="5" stroke-width="2.2"/>
+        <g style="transform-origin:12px 7px; animation:tt-wind 3s ease-in-out infinite">
+          <path d="M12 7 Q9 5 4 3.5" stroke-width="1.8"/>
+          <path d="M12 7 Q15 5 20 3.5" stroke-width="1.8"/>
+          <circle cx="4" cy="3.5" r="0.8" fill="currentColor" stroke="none" opacity="0.5"/>
+          <circle cx="20" cy="3.5" r="0.8" fill="currentColor" stroke="none" opacity="0.5"/>
+        </g>
+        <g style="transform-origin:12px 14px; animation:tt-wind 3.5s ease-in-out infinite reverse">
+          <path d="M12 14 Q9.5 12 6 10.5" stroke-width="1.4"/>
+          <path d="M12 14 Q14.5 12 18 10.5" stroke-width="1.4"/>
+          <circle cx="6" cy="10.5" r="0.6" fill="currentColor" stroke="none" opacity="0.4"/>
+          <circle cx="18" cy="10.5" r="0.6" fill="currentColor" stroke="none" opacity="0.4"/>
+        </g>
+      </svg>
+      <h1 class="tt-splash-text">TurboTwig</h1>
+      <p class="tt-splash-tagline">Open-source procedural tree and vegetation generator for the browser — built with TypeScript and WebGL 2.0.</p>
+      <ul class="tt-splash-features">
+        <li>L-system grammars</li>
+        <li>WebGL 2.0 PBR rendering</li>
+        <li>Wind animation</li>
+        <li>Branch collision avoidance</li>
+        <li>glTF export</li>
+        <li>MIT open source</li>
+      </ul>
+      <p class="tt-splash-about">Procedural 3D trees in your browser: parametric L-systems, shadow mapping, atmospheric scattering, and glTF export for game engines.</p>
+
+      <div class="tt-splash-section-label">Built for</div>
+      <ul class="tt-splash-usecases">
+        <li>Game development</li>
+        <li>Real-time visualization</li>
+        <li>Film &amp; VFX previsualization</li>
+        <li>Research &amp; education</li>
+        <li>Web 3D experiences</li>
+      </ul>
+
+      <div class="tt-splash-section-label">Tech stack</div>
+      <div class="tt-splash-stack">
+        <span>TypeScript</span>
+        <span>WebGL 2.0</span>
+        <span>GLSL shaders</span>
+        <span>Web Workers</span>
+        <span>manifold-3d CSG</span>
+        <span>Vite</span>
+      </div>
+
+      <div class="tt-splash-loading">Initializing renderer</div>
+
+      <div class="tt-splash-footer">
+        <a href="https://github.com/3merillon/turbotwig" target="_blank" rel="noopener">GitHub</a>
+        <span class="sep">·</span>
+        <span>MIT License</span>
+        <span class="sep">·</span>
+        <span>v%APP_VERSION%</span>
+        <span class="sep">·</span>
+        <span>turbotwig.com</span>
+      </div>
+    </div>
+    <noscript>
+      <div style="color:#8892b0;font-family:system-ui,sans-serif;padding:2rem;max-width:640px;margin:0 auto;">
+        <h2>TurboTwig</h2>
+        <p>Open-source procedural tree and vegetation generator for the web, built with TypeScript and WebGL 2.0. Generate 3D trees with L-system grammars, PBR rendering, wind animation, and glTF export — directly in your browser.</p>
+        <p>This application requires JavaScript and WebGL 2.0. Source code: <a href="https://github.com/3merillon/turbotwig" style="color:#4fc3f7;">GitHub</a>.</p>
+      </div>
+    </noscript>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

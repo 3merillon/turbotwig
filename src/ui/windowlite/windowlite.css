@@ -1,0 +1,826 @@
+/**
+ * Windowlite - Planets adaptation
+ * Exact windowlite minimal theme colors, no orange. Orbitron font.
+ */
+
+/* ===============================================
+   CSS VARIABLES — windowlite minimal dark
+   =============================================== */
+
+.wl-container {
+    --wl-bg: rgba(24, 24, 28, 0.65);
+    --wl-border-color: rgba(255, 255, 255, 0.08);
+    --wl-border-color-focus: rgba(255, 255, 255, 0.15);
+    --wl-border-width: 1px;
+    --wl-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --wl-shadow-focus: 0 4px 16px rgba(0, 0, 0, 0.4);
+
+    --wl-header-bg: rgba(32, 32, 36, 0.7);
+    --wl-header-bg-solid: rgba(32, 32, 36, 0.55);
+    --wl-header-border-color: rgba(255, 255, 255, 0.05);
+    --wl-header-padding: 4px;
+
+    --wl-title-color: rgba(255, 255, 255, 0.9);
+    --wl-title-font: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --wl-title-size: 11px;
+    --wl-title-weight: 500;
+
+    --wl-content-bg: transparent;
+    --wl-content-color: rgba(255, 255, 255, 0.75);
+    --wl-content-padding: 0px;
+
+    --wl-btn-size: 18px;
+    --wl-btn-bg: transparent;
+    --wl-btn-bg-hover: rgba(255, 255, 255, 0.1);
+    --wl-btn-color: rgba(255, 255, 255, 0.4);
+    --wl-btn-color-hover: rgba(255, 255, 255, 0.8);
+    --wl-btn-border-color: transparent;
+    --wl-btn-border-radius: 3px;
+
+    --wl-resize-size: 4px;
+    --wl-resize-corner-size: 10px;
+    --wl-resize-indicator: rgba(59, 180, 246, 0.5);
+    --wl-resize-indicator-size: 3px;
+
+    --wl-scrollbar-width: 4px;
+    --wl-scrollbar-track: transparent;
+    --wl-scrollbar-thumb: rgba(255, 255, 255, 0.2);
+    --wl-scrollbar-thumb-hover: rgba(255, 255, 255, 0.3);
+
+    --wl-radius: 0;
+    --wl-header-radius: 0;
+
+    --wl-z-base: 2100;
+    --wl-z-focused: 2200;
+
+    --wl-backdrop: none;
+
+    --wl-text-primary: rgba(255, 255, 255, 0.9);
+    --wl-text-secondary: rgba(255, 255, 255, 0.6);
+    --wl-text-muted: rgba(255, 255, 255, 0.4);
+    --wl-surface: rgba(255, 255, 255, 0.04);
+    --wl-surface-hover: rgba(255, 255, 255, 0.08);
+    --wl-surface-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ===============================================
+   LIGHT THEME
+   =============================================== */
+
+.wl-container.wl-light {
+    --wl-bg: rgba(255, 255, 255, 0.65);
+    --wl-border-color: rgba(0, 0, 0, 0.08);
+    --wl-border-color-focus: rgba(0, 0, 0, 0.15);
+    --wl-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    --wl-shadow-focus: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+    --wl-header-bg: rgba(248, 248, 250, 0.7);
+    --wl-header-bg-solid: rgba(248, 248, 250, 0.55);
+    --wl-header-border-color: rgba(0, 0, 0, 0.05);
+
+    --wl-title-color: rgba(0, 0, 0, 0.85);
+    --wl-content-color: rgba(0, 0, 0, 0.7);
+
+    --wl-btn-bg-hover: rgba(0, 0, 0, 0.05);
+    --wl-btn-color: rgba(0, 0, 0, 0.3);
+    --wl-btn-color-hover: rgba(0, 0, 0, 0.7);
+
+    --wl-resize-indicator: rgba(59, 180, 246, 0.45);
+
+    --wl-scrollbar-thumb: rgba(0, 0, 0, 0.3);
+    --wl-scrollbar-thumb-hover: rgba(0, 0, 0, 0.45);
+
+    --wl-text-primary: rgba(0, 0, 0, 0.85);
+    --wl-text-secondary: rgba(0, 0, 0, 0.6);
+    --wl-text-muted: rgba(0, 0, 0, 0.4);
+    --wl-surface: rgba(0, 0, 0, 0.03);
+    --wl-surface-hover: rgba(0, 0, 0, 0.06);
+    --wl-surface-border: rgba(0, 0, 0, 0.08);
+}
+
+/* ===============================================
+   CONTAINER
+   =============================================== */
+
+.wl-container {
+    position: relative;
+    overflow: hidden;
+}
+
+/* ===============================================
+   WINDOW
+   =============================================== */
+
+.wl-window {
+    position: absolute;
+    box-sizing: border-box;
+    background: var(--wl-bg);
+    border: var(--wl-border-width) solid var(--wl-border-color);
+    border-radius: var(--wl-radius);
+    box-shadow: var(--wl-shadow);
+    display: none;
+    flex-direction: column;
+    z-index: var(--wl-z-base);
+    overflow: hidden;
+}
+
+.wl-window.wl-active {
+    display: flex;
+}
+
+.wl-window.wl-focused {
+    z-index: var(--wl-z-focused);
+    border-color: var(--wl-border-color-focus);
+    box-shadow: var(--wl-shadow-focus);
+}
+
+.wl-window.wl-dragging {
+    cursor: move;
+    user-select: none;
+}
+
+.wl-window.wl-resizing {
+    user-select: none;
+}
+
+/* ===============================================
+   HEADER
+   =============================================== */
+
+.wl-header {
+    padding: var(--wl-header-padding);
+    padding-left: 7px; /* 3px color bar + 4px base padding */
+    background: var(--wl-header-bg);
+    border-bottom: 1px solid var(--wl-border-color);
+    border-radius: var(--wl-header-radius);
+    cursor: move;
+    display: flex;
+    align-items: center;
+    user-select: none;
+    touch-action: none;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.wl-title-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    flex: 1;
+    overflow: visible;
+    position: relative;
+    z-index: 0;
+}
+
+.wl-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wl-text-muted);
+}
+
+.wl-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Section collapse chevron */
+.wl-section-chevron {
+    flex-shrink: 0;
+    color: var(--wl-text-muted);
+    transition: transform 0.15s ease;
+    transform: rotate(90deg);
+    display: flex;
+    align-items: center;
+}
+
+.wl-window.wl-minimized .wl-section-chevron {
+    transform: rotate(0deg);
+}
+
+.wl-title {
+    font-family: var(--wl-title-font);
+    font-size: var(--wl-title-size);
+    font-weight: var(--wl-title-weight);
+    color: var(--wl-title-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1;
+}
+
+/* Color tint system — pseudo-element left bar + subtle header/icon tint.
+   Uses ::before on header for a clean rectangle (no border miter). */
+
+.wl-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--wl-color-accent, transparent);
+}
+
+.wl-window[data-color="blue"] { --wl-header-bg: rgba(40, 52, 72, 0.7); --wl-header-bg-solid: rgba(40, 52, 72, 0.55); --wl-color-accent: #3b82f6; }
+.wl-window[data-color="blue"] .wl-icon { color: #3b82f6; }
+
+.wl-window[data-color="green"] { --wl-header-bg: rgba(36, 52, 42, 0.7); --wl-header-bg-solid: rgba(36, 52, 42, 0.55); --wl-color-accent: #22c55e; }
+.wl-window[data-color="green"] .wl-icon { color: #22c55e; }
+
+.wl-window[data-color="purple"] { --wl-header-bg: rgba(48, 36, 60, 0.7); --wl-header-bg-solid: rgba(48, 36, 60, 0.55); --wl-color-accent: #a855f7; }
+.wl-window[data-color="purple"] .wl-icon { color: #a855f7; }
+
+.wl-window[data-color="orange"] { --wl-header-bg: rgba(52, 42, 30, 0.7); --wl-header-bg-solid: rgba(52, 42, 30, 0.55); --wl-color-accent: #f97316; }
+.wl-window[data-color="orange"] .wl-icon { color: #f97316; }
+
+.wl-window[data-color="red"] { --wl-header-bg: rgba(56, 34, 34, 0.7); --wl-header-bg-solid: rgba(56, 34, 34, 0.55); --wl-color-accent: #ef4444; }
+.wl-window[data-color="red"] .wl-icon { color: #ef4444; }
+
+.wl-window[data-color="grey"] { --wl-header-bg: rgba(46, 46, 52, 0.7); --wl-header-bg-solid: rgba(46, 46, 52, 0.55); --wl-color-accent: #94a3b8; }
+.wl-window[data-color="grey"] .wl-icon { color: #94a3b8; }
+
+.wl-window[data-color="teal"] { --wl-header-bg: rgba(30, 52, 50, 0.7); --wl-header-bg-solid: rgba(30, 52, 50, 0.55); --wl-color-accent: #14b8a6; }
+.wl-window[data-color="teal"] .wl-icon { color: #14b8a6; }
+
+.wl-window[data-color="amber"] { --wl-header-bg: rgba(52, 46, 28, 0.7); --wl-header-bg-solid: rgba(52, 46, 28, 0.55); --wl-color-accent: #f59e0b; }
+.wl-window[data-color="amber"] .wl-icon { color: #f59e0b; }
+
+.wl-window[data-color="indigo"] { --wl-header-bg: rgba(38, 36, 62, 0.7); --wl-header-bg-solid: rgba(38, 36, 62, 0.55); --wl-color-accent: #6366f1; }
+.wl-window[data-color="indigo"] .wl-icon { color: #6366f1; }
+
+.wl-window[data-color="yellow"] { --wl-header-bg: rgba(52, 48, 24, 0.7); --wl-header-bg-solid: rgba(52, 48, 24, 0.55); --wl-color-accent: #eab308; }
+.wl-window[data-color="yellow"] .wl-icon { color: #eab308; }
+
+.wl-window[data-color="brown"] { --wl-header-bg: rgba(56, 40, 30, 0.7); --wl-header-bg-solid: rgba(56, 40, 30, 0.55); --wl-color-accent: #a0845e; }
+.wl-window[data-color="brown"] .wl-icon { color: #a0845e; }
+
+.wl-window[data-color="lime"] { --wl-header-bg: rgba(36, 50, 28, 0.7); --wl-header-bg-solid: rgba(36, 50, 28, 0.55); --wl-color-accent: #84cc16; }
+.wl-window[data-color="lime"] .wl-icon { color: #84cc16; }
+
+.wl-window[data-color="cyan"] { --wl-header-bg: rgba(28, 50, 56, 0.7); --wl-header-bg-solid: rgba(28, 50, 56, 0.55); --wl-color-accent: #06b6d4; }
+.wl-window[data-color="cyan"] .wl-icon { color: #06b6d4; }
+
+.wl-window[data-color="slate"] { --wl-header-bg: rgba(40, 46, 56, 0.7); --wl-header-bg-solid: rgba(40, 46, 56, 0.55); --wl-color-accent: #64748b; }
+.wl-window[data-color="slate"] .wl-icon { color: #64748b; }
+
+/* Color tints — light mode overrides */
+.wl-light .wl-window[data-color="blue"] { --wl-header-bg: rgba(220, 230, 248, 0.7); --wl-header-bg-solid: rgba(220, 230, 248, 0.55); }
+.wl-light .wl-window[data-color="green"] { --wl-header-bg: rgba(220, 245, 230, 0.7); --wl-header-bg-solid: rgba(220, 245, 230, 0.55); }
+.wl-light .wl-window[data-color="purple"] { --wl-header-bg: rgba(235, 222, 248, 0.7); --wl-header-bg-solid: rgba(235, 222, 248, 0.55); }
+.wl-light .wl-window[data-color="orange"] { --wl-header-bg: rgba(252, 238, 220, 0.7); --wl-header-bg-solid: rgba(252, 238, 220, 0.55); }
+.wl-light .wl-window[data-color="red"] { --wl-header-bg: rgba(252, 225, 225, 0.7); --wl-header-bg-solid: rgba(252, 225, 225, 0.55); }
+.wl-light .wl-window[data-color="grey"] { --wl-header-bg: rgba(230, 232, 236, 0.7); --wl-header-bg-solid: rgba(230, 232, 236, 0.55); }
+.wl-light .wl-window[data-color="teal"] { --wl-header-bg: rgba(210, 245, 240, 0.7); --wl-header-bg-solid: rgba(210, 245, 240, 0.55); }
+.wl-light .wl-window[data-color="amber"] { --wl-header-bg: rgba(254, 243, 210, 0.7); --wl-header-bg-solid: rgba(254, 243, 210, 0.55); }
+.wl-light .wl-window[data-color="indigo"] { --wl-header-bg: rgba(225, 224, 252, 0.7); --wl-header-bg-solid: rgba(225, 224, 252, 0.55); }
+.wl-light .wl-window[data-color="yellow"] { --wl-header-bg: rgba(254, 249, 210, 0.7); --wl-header-bg-solid: rgba(254, 249, 210, 0.55); }
+.wl-light .wl-window[data-color="brown"] { --wl-header-bg: rgba(245, 232, 218, 0.7); --wl-header-bg-solid: rgba(245, 232, 218, 0.55); }
+.wl-light .wl-window[data-color="lime"] { --wl-header-bg: rgba(228, 248, 210, 0.7); --wl-header-bg-solid: rgba(228, 248, 210, 0.55); }
+.wl-light .wl-window[data-color="cyan"] { --wl-header-bg: rgba(210, 245, 252, 0.7); --wl-header-bg-solid: rgba(210, 245, 252, 0.55); }
+.wl-light .wl-window[data-color="slate"] { --wl-header-bg: rgba(226, 232, 240, 0.7); --wl-header-bg-solid: rgba(226, 232, 240, 0.55); }
+
+.wl-controls {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-left: 16px;
+    padding-right: 4px;
+    background: linear-gradient(90deg, transparent, var(--wl-header-bg-solid) 12px);
+    z-index: 1;
+}
+
+/* ===============================================
+   CONTENT
+   =============================================== */
+
+.wl-content {
+    flex: 1;
+    padding: var(--wl-content-padding);
+    overflow: auto;
+    color: var(--wl-content-color);
+    background: var(--wl-content-bg);
+    transition: max-height 0.2s ease;
+}
+
+.wl-window.wl-minimized .wl-content {
+    overflow: hidden;
+}
+
+.wl-content::-webkit-scrollbar {
+    width: var(--wl-scrollbar-width);
+    height: var(--wl-scrollbar-width);
+}
+
+.wl-content::-webkit-scrollbar-track {
+    background: var(--wl-scrollbar-track);
+}
+
+.wl-content::-webkit-scrollbar-thumb {
+    background: var(--wl-scrollbar-thumb);
+    border-radius: calc(var(--wl-scrollbar-width) / 2);
+}
+
+.wl-content::-webkit-scrollbar-thumb:hover {
+    background: var(--wl-scrollbar-thumb-hover);
+}
+
+.wl-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--wl-scrollbar-thumb) var(--wl-scrollbar-track);
+}
+
+/* ===============================================
+   MINIMIZE BUTTON
+   =============================================== */
+
+.wl-minimize-btn {
+    width: var(--wl-btn-size);
+    height: var(--wl-btn-size);
+    background: var(--wl-btn-bg);
+    border: 1px solid var(--wl-btn-border-color);
+    border-radius: var(--wl-btn-border-radius);
+    color: var(--wl-btn-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.wl-minimize-btn svg {
+    display: block;
+    flex-shrink: 0;
+}
+
+.wl-minimize-btn:hover {
+    background: var(--wl-btn-bg-hover);
+    color: var(--wl-btn-color-hover);
+}
+
+.wl-minimize-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--wl-border-color-focus);
+}
+
+/* ===============================================
+   MINIMIZED STATE
+   =============================================== */
+
+.wl-window.wl-minimized {
+}
+
+.wl-window.wl-minimized .wl-header {
+}
+
+/* When minimized, E/W resize handles span full height */
+.wl-window.wl-minimized .wl-resize-e,
+.wl-window.wl-minimized .wl-resize-w {
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 4px;
+}
+
+/* ===============================================
+   RESIZE HANDLES
+   =============================================== */
+
+.wl-resize {
+    position: absolute;
+    z-index: 10;
+    touch-action: none;
+}
+
+.wl-resize-n {
+    top: 0;
+    left: var(--wl-resize-corner-size);
+    right: var(--wl-resize-corner-size);
+    height: var(--wl-resize-size);
+    cursor: ns-resize;
+}
+
+.wl-resize-s {
+    bottom: 0;
+    left: var(--wl-resize-corner-size);
+    right: var(--wl-resize-corner-size);
+    height: var(--wl-resize-size);
+    cursor: ns-resize;
+}
+
+.wl-resize-e {
+    right: 0;
+    top: var(--wl-resize-corner-size);
+    bottom: var(--wl-resize-corner-size);
+    width: var(--wl-resize-size);
+    cursor: ew-resize;
+}
+
+.wl-resize-w {
+    left: 0;
+    top: var(--wl-resize-corner-size);
+    bottom: var(--wl-resize-corner-size);
+    width: var(--wl-resize-size);
+    cursor: ew-resize;
+}
+
+.wl-resize-ne {
+    top: 0;
+    right: 0;
+    width: var(--wl-resize-corner-size);
+    height: var(--wl-resize-corner-size);
+    cursor: nesw-resize;
+}
+
+.wl-resize-nw {
+    top: 0;
+    left: 0;
+    width: var(--wl-resize-corner-size);
+    height: var(--wl-resize-corner-size);
+    cursor: nwse-resize;
+}
+
+.wl-resize-se {
+    bottom: 0;
+    right: 0;
+    width: var(--wl-resize-corner-size);
+    height: var(--wl-resize-corner-size);
+    cursor: nwse-resize;
+}
+
+.wl-resize-sw {
+    bottom: 0;
+    left: 0;
+    width: var(--wl-resize-corner-size);
+    height: var(--wl-resize-corner-size);
+    cursor: nesw-resize;
+}
+
+/* ===============================================
+   RESIZE INDICATORS
+   =============================================== */
+
+.wl-resize::after {
+    content: '';
+    position: absolute;
+    background: transparent;
+    transition: background 0.15s ease;
+    pointer-events: none;
+}
+
+.wl-resize-n::after {
+    top: 0;
+    left: calc(-1 * var(--wl-resize-corner-size));
+    right: calc(-1 * var(--wl-resize-corner-size));
+    height: var(--wl-resize-indicator-size);
+}
+
+.wl-resize-s::after {
+    bottom: 0;
+    left: calc(-1 * var(--wl-resize-corner-size));
+    right: calc(-1 * var(--wl-resize-corner-size));
+    height: var(--wl-resize-indicator-size);
+}
+
+.wl-resize-e::after {
+    right: 0;
+    top: calc(-1 * var(--wl-resize-corner-size));
+    bottom: calc(-1 * var(--wl-resize-corner-size));
+    width: var(--wl-resize-indicator-size);
+}
+
+.wl-resize-w::after {
+    left: 0;
+    top: calc(-1 * var(--wl-resize-corner-size));
+    bottom: calc(-1 * var(--wl-resize-corner-size));
+    width: var(--wl-resize-indicator-size);
+}
+
+.wl-resize-n:hover::after, .wl-resize-n.wl-resizing::after,
+.wl-resize-s:hover::after, .wl-resize-s.wl-resizing::after,
+.wl-resize-e:hover::after, .wl-resize-e.wl-resizing::after,
+.wl-resize-w:hover::after, .wl-resize-w.wl-resizing::after {
+    background: var(--wl-resize-indicator);
+}
+
+/* Corner L-shape: ::before = horizontal arm (full width), ::after = vertical arm (offset to avoid overlap).
+   The vertical arm starts below/above the horizontal arm's thickness so they don't double up at the corner. */
+.wl-resize-ne::before, .wl-resize-nw::before,
+.wl-resize-se::before, .wl-resize-sw::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: var(--wl-resize-indicator-size);
+    background: transparent;
+    transition: background 0.15s ease;
+    pointer-events: none;
+}
+
+.wl-resize-ne::after, .wl-resize-nw::after,
+.wl-resize-se::after, .wl-resize-sw::after {
+    width: var(--wl-resize-indicator-size);
+}
+
+/* Horizontal arm: top for N corners, bottom for S corners */
+.wl-resize-ne::before, .wl-resize-nw::before { top: 0; }
+.wl-resize-se::before, .wl-resize-sw::before { bottom: 0; }
+
+/* Vertical arm: offset by indicator-size to avoid overlap at the corner pixel */
+.wl-resize-ne::after { right: 0; top: var(--wl-resize-indicator-size); bottom: 0; }
+.wl-resize-nw::after { left: 0; top: var(--wl-resize-indicator-size); bottom: 0; }
+.wl-resize-se::after { right: 0; bottom: var(--wl-resize-indicator-size); top: 0; }
+.wl-resize-sw::after { left: 0; bottom: var(--wl-resize-indicator-size); top: 0; }
+
+.wl-resize-ne::after, .wl-resize-se::after { right: 0; }
+.wl-resize-nw::after, .wl-resize-sw::after { left: 0; }
+
+:is(.wl-resize-ne, .wl-resize-nw, .wl-resize-se, .wl-resize-sw):hover::before,
+:is(.wl-resize-ne, .wl-resize-nw, .wl-resize-se, .wl-resize-sw):hover::after,
+:is(.wl-resize-ne, .wl-resize-nw, .wl-resize-se, .wl-resize-sw).wl-resizing::before,
+:is(.wl-resize-ne, .wl-resize-nw, .wl-resize-se, .wl-resize-sw).wl-resizing::after {
+    background: var(--wl-resize-indicator);
+}
+
+/* ===============================================
+   TRANSITIONS
+   =============================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+    .wl-window {
+        transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+}
+
+/* ===============================================
+   MOBILE / TOUCH
+   =============================================== */
+
+@media (pointer: coarse) {
+    .wl-container {
+        --wl-resize-size: 6px;
+        --wl-resize-corner-size: 14px;
+    }
+
+    /* Controls must sit above resize corners on touch */
+    .wl-controls {
+        z-index: 11;
+    }
+}
+
+/* ===============================================
+   LIGHT THEME CONTENT OVERRIDES
+   =============================================== */
+
+.wl-container.wl-light .wl-content {
+    color: var(--wl-text-secondary);
+    color-scheme: light;
+}
+
+.wl-container.wl-light .wl-content * {
+    color: inherit;
+}
+
+/* Dark mode: force dark color-scheme for native controls */
+.wl-content {
+    color-scheme: dark;
+}
+
+
+/* ===============================================
+   SECTION HEADER SHIMMER ANIMATIONS
+   =============================================== */
+
+/* Shared shimmer pseudo-element */
+.wl-window .wl-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* Blue sections — slow pulse glow on left border */
+.wl-window[data-color="blue"] .wl-header::after {
+    left: 0;
+    width: 3px;
+    background: #3b82f6;
+    animation: section-border-pulse 4s ease-in-out infinite;
+}
+
+/* Green sections — horizontal shimmer sweep */
+.wl-window[data-color="green"] .wl-header::after {
+    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.08), transparent);
+    animation: section-shimmer 6s ease-in-out infinite;
+}
+
+/* Purple sections — gentle hue shift */
+.wl-window[data-color="purple"] .wl-header::after {
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, rgba(139, 92, 246, 0.05), rgba(99, 102, 241, 0.05));
+    animation: section-hue 8s ease-in-out infinite alternate;
+}
+
+/* Orange sections — warm flicker */
+.wl-window[data-color="orange"] .wl-header::after {
+    left: 0;
+    width: 100%;
+    background: rgba(249, 115, 22, 0.04);
+    animation: section-flicker 3s ease-in-out infinite;
+}
+
+/* Teal sections — horizontal shimmer sweep */
+.wl-window[data-color="teal"] .wl-header::after {
+    background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.08), transparent);
+    animation: section-shimmer 7s ease-in-out infinite;
+}
+
+/* Amber sections — warm flicker */
+.wl-window[data-color="amber"] .wl-header::after {
+    left: 0;
+    width: 100%;
+    background: rgba(245, 158, 11, 0.04);
+    animation: section-flicker 4s ease-in-out infinite;
+}
+
+/* Indigo sections — gentle hue shift */
+.wl-window[data-color="indigo"] .wl-header::after {
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, rgba(99, 102, 241, 0.05), rgba(129, 140, 248, 0.05));
+    animation: section-hue 7s ease-in-out infinite alternate;
+}
+
+/* Yellow sections — warm flicker */
+.wl-window[data-color="yellow"] .wl-header::after {
+    left: 0;
+    width: 100%;
+    background: rgba(234, 179, 8, 0.04);
+    animation: section-flicker 3.5s ease-in-out infinite;
+}
+
+/* Grey sections — subtle left border pulse */
+.wl-window[data-color="grey"] .wl-header::after {
+    left: 0;
+    width: 3px;
+    background: #94a3b8;
+    animation: section-border-pulse 5s ease-in-out infinite;
+}
+
+/* Slate sections — subtle left border pulse */
+.wl-window[data-color="slate"] .wl-header::after {
+    left: 0;
+    width: 3px;
+    background: #64748b;
+    animation: section-border-pulse 5s ease-in-out infinite;
+}
+
+/* Red sections — heartbeat pulse on left border */
+.wl-window[data-color="red"] .wl-header::after {
+    left: 0;
+    width: 3px;
+    background: #ef4444;
+    animation: section-heartbeat 4s ease-in-out infinite;
+}
+
+@keyframes section-border-pulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.4; }
+}
+
+@keyframes section-shimmer {
+    0% { left: -80%; opacity: 1; }
+    40% { left: 100%; opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+}
+
+@keyframes section-hue {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes section-flicker {
+    0%, 100% { opacity: 0.3; }
+    25% { opacity: 0.7; }
+    50% { opacity: 0.2; }
+    75% { opacity: 0.6; }
+}
+
+@keyframes section-heartbeat {
+    0%, 100% { opacity: 0; }
+    15% { opacity: 0.5; }
+    25% { opacity: 0; }
+    35% { opacity: 0.4; }
+    50% { opacity: 0; }
+}
+
+/* ===============================================
+   DETACHED WINDOW BORDER GLOW
+   =============================================== */
+
+.wl-window[data-color="blue"].wl-active:not(.wl-minimized) {
+    animation: window-glow-blue 6s ease-in-out infinite;
+}
+.wl-window[data-color="green"].wl-active:not(.wl-minimized) {
+    animation: window-glow-green 6s ease-in-out infinite;
+}
+.wl-window[data-color="purple"].wl-active:not(.wl-minimized) {
+    animation: window-glow-purple 6s ease-in-out infinite;
+}
+.wl-window[data-color="orange"].wl-active:not(.wl-minimized) {
+    animation: window-glow-orange 6s ease-in-out infinite;
+}
+.wl-window[data-color="red"].wl-active:not(.wl-minimized) {
+    animation: window-glow-red 6s ease-in-out infinite;
+}
+.wl-window[data-color="grey"].wl-active:not(.wl-minimized) {
+    animation: window-glow-grey 6s ease-in-out infinite;
+}
+.wl-window[data-color="teal"].wl-active:not(.wl-minimized) {
+    animation: window-glow-teal 6s ease-in-out infinite;
+}
+.wl-window[data-color="amber"].wl-active:not(.wl-minimized) {
+    animation: window-glow-amber 6s ease-in-out infinite;
+}
+.wl-window[data-color="indigo"].wl-active:not(.wl-minimized) {
+    animation: window-glow-indigo 6s ease-in-out infinite;
+}
+.wl-window[data-color="yellow"].wl-active:not(.wl-minimized) {
+    animation: window-glow-yellow 6s ease-in-out infinite;
+}
+.wl-window[data-color="slate"].wl-active:not(.wl-minimized) {
+    animation: window-glow-slate 6s ease-in-out infinite;
+}
+
+@keyframes window-glow-blue {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(59, 130, 246, 0.1); }
+}
+@keyframes window-glow-green {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(34, 197, 94, 0.1); }
+}
+@keyframes window-glow-purple {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(168, 85, 247, 0.1); }
+}
+@keyframes window-glow-orange {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(249, 115, 22, 0.1); }
+}
+@keyframes window-glow-red {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(239, 68, 68, 0.1); }
+}
+@keyframes window-glow-grey {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(148, 163, 184, 0.1); }
+}
+@keyframes window-glow-teal {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(20, 184, 166, 0.1); }
+}
+@keyframes window-glow-amber {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(245, 158, 11, 0.1); }
+}
+@keyframes window-glow-indigo {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(99, 102, 241, 0.1); }
+}
+@keyframes window-glow-yellow {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(234, 179, 8, 0.1); }
+}
+@keyframes window-glow-slate {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(100, 116, 139, 0.1); }
+}
+
+/* Disable glow on docked sections (sidebar) */
+.sidebar-container .wl-window {
+    animation: none !important;
+}
+
+/* ===============================================
+   REDUCED MOTION — disable all window animations
+   =============================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .wl-window .wl-header::after,
+    .wl-window[data-color].wl-active {
+        animation: none !important;
+    }
+}

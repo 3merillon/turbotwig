@@ -1,0 +1,563 @@
+/**
+ * Sidebar styles — windowlite minimal colors, no orange.
+ *
+ * Z-index strategy (highest on top):
+ *   10000  Collapsed sidebar (always on top)
+ *    9999  Dock drop indicator
+ *    2000  Sidebar panel (expanded)
+ *    1000  Controls dropdown overlay (controls.css)
+ *     0-11 Windowlite internal (windowlite.css)
+ */
+
+/* ===============================================
+   SIDEBAR
+   =============================================== */
+
+.wl-sidebar {
+    position: fixed;
+    top: 0;
+    max-height: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background: rgba(24, 24, 28, 0.65);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: width 0.15s ease;
+    box-sizing: border-box;
+    z-index: 2000;
+    --wl-border-color: rgba(255, 255, 255, 0.08);
+    --wl-btn-color: rgba(255, 255, 255, 0.4);
+    --wl-btn-color-hover: rgba(255, 255, 255, 0.8);
+    --wl-btn-bg-hover: rgba(255, 255, 255, 0.1);
+}
+
+.wl-sidebar-right {
+    right: 0;
+    left: auto;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wl-sidebar.wl-sidebar-resizing {
+    transition: none;
+}
+
+/* Light theme */
+.wl-sidebar.wl-light {
+    background: rgba(248, 248, 250, 0.65);
+    border-left-color: rgba(0, 0, 0, 0.08);
+    --wl-border-color: rgba(0, 0, 0, 0.08);
+    --wl-btn-color: rgba(0, 0, 0, 0.3);
+    --wl-btn-color-hover: rgba(0, 0, 0, 0.7);
+    --wl-btn-bg-hover: rgba(0, 0, 0, 0.05);
+}
+
+.wl-sidebar.wl-light .wl-sidebar-header {
+    background: rgba(248, 248, 250, 0.7);
+    border-bottom-color: rgba(0, 0, 0, 0.05);
+}
+
+.wl-sidebar.wl-light .wl-sidebar-title {
+    color: rgba(0, 0, 0, 0.85);
+}
+
+
+/* ===============================================
+   COLLAPSED STATE
+   =============================================== */
+
+/* Collapsed: same height as expanded titlebar, square.
+   Expanded header = min-height 18px + padding 4px top + 4px bottom + 1px border = 27px total.
+   Collapsed = same 27px height, square width. */
+.wl-sidebar.wl-sidebar-collapsed {
+    height: auto;
+    border-bottom: 1px solid var(--wl-border-color, rgba(255, 255, 255, 0.08));
+    border-bottom-left-radius: 0;
+    z-index: 10000 !important; /* always on top when closed */
+}
+
+.wl-sidebar.wl-light.wl-sidebar-collapsed {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+.wl-sidebar.wl-sidebar-collapsed .wl-sidebar-header {
+    border-bottom: none;
+    min-height: 0;
+    overflow: visible;
+    padding: 0;
+}
+
+/* When collapsed: hide title, show icon centered in a fixed square */
+.wl-sidebar.wl-sidebar-collapsed .wl-sidebar-title {
+    display: none;
+}
+
+.wl-sidebar.wl-sidebar-collapsed .wl-sidebar-title-container {
+    flex: none;
+    gap: 0;
+    overflow: visible;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wl-sidebar.wl-sidebar-collapsed .sidebar-header-icon {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.wl-sidebar.wl-sidebar-collapsed .wl-sidebar-body {
+    display: none;
+}
+
+.wl-sidebar.wl-sidebar-collapsed .wl-sidebar-resize-handle {
+    display: none;
+}
+
+/* ===============================================
+   SIDEBAR HEADER
+   =============================================== */
+
+.wl-sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    background: rgba(32, 32, 36, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    min-height: var(--wl-btn-size, 18px);
+    box-sizing: content-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.wl-sidebar-title-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+.wl-sidebar-title {
+    font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1;
+    letter-spacing: 1px;
+}
+
+/* ===============================================
+   SIDEBAR BODY
+   =============================================== */
+
+.wl-sidebar-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.wl-sidebar.wl-light .wl-sidebar-body {
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.wl-sidebar-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.wl-sidebar-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.wl-sidebar-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.wl-sidebar.wl-light .wl-sidebar-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* ===============================================
+   SIDEBAR CREDIT (inside menu body, pinned bottom)
+   =============================================== */
+
+/* Make the body a flex column so the credit can be pushed to the bottom */
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-credit {
+    margin-top: auto;      /* push to bottom when windows don't fill the body */
+    order: 999;            /* stay visually last regardless of DOM insertion order */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 12px 12px;
+    background: rgba(32, 32, 36, 0.7);
+    border-top: 1px solid var(--wl-border-color, rgba(255, 255, 255, 0.08));
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar-credit-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.sidebar-credit-handle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    color: inherit;
+    margin-top: -4px;
+}
+
+.sidebar-credit-handle-name {
+    color: #c77837;
+    font-weight: 500;
+}
+
+
+.sidebar-credit-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.sidebar-credit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-credit-icon:hover {
+    color: rgba(255, 255, 255, 0.95);
+    opacity: 1;
+    text-decoration: none;
+}
+
+.sidebar-credit-icon svg,
+.sidebar-credit-icon img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Favicon has transparent padding — scale up to match the solid SVG icons */
+.sidebar-credit-icon img {
+    transform: scale(1.25);
+    transform-origin: center;
+}
+
+.wl-sidebar.wl-light .sidebar-credit {
+    background: rgba(248, 248, 250, 0.7);
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.wl-sidebar.wl-light .sidebar-credit-icon {
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.wl-sidebar.wl-light .sidebar-credit-icon:hover {
+    color: rgba(0, 0, 0, 0.95);
+}
+
+/* ===============================================
+   RESIZE HANDLE
+   =============================================== */
+
+.wl-sidebar-resize-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: ew-resize;
+    touch-action: none;
+    z-index: 2;
+}
+
+.wl-sidebar-right .wl-sidebar-resize-handle {
+    left: 0;
+}
+
+.wl-sidebar-resize-handle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: transparent;
+    transition: background 0.15s ease;
+    pointer-events: none;
+}
+
+.wl-sidebar-resize-handle:hover::after,
+.wl-sidebar-resize-handle.wl-resizing::after {
+    background: rgba(59, 130, 246, 0.4);
+}
+
+/* ===============================================
+   DOCKED WINDOW OVERRIDES
+   =============================================== */
+
+.sidebar-container .wl-window {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    z-index: auto !important;
+    border: none !important;
+    box-shadow: none !important;
+    flex-shrink: 0;
+}
+
+/* Single 1px separator between sections only (sidebar header already has border-bottom) */
+.sidebar-container .wl-window + .wl-window {
+    border-top: 1px solid var(--wl-border-color, rgba(255, 255, 255, 0.08)) !important;
+}
+
+.sidebar-container .wl-window.wl-focused {
+    border-color: var(--wl-border-color);
+}
+
+.sidebar-container .wl-window .wl-resize {
+    display: none !important;
+}
+
+/* Docked headers: no rounded corners, collapse-cursor, allow native vertical scroll on touch */
+.sidebar-container .wl-header {
+    cursor: pointer;
+    border-radius: 0 !important;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.sidebar-container .wl-window.wl-minimized {
+    height: auto !important;
+}
+
+.sidebar-container .wl-window.wl-minimized .wl-header {
+    border-radius: 0 !important;
+}
+
+/* Colored left line + body tint on content (like windowlite sections) */
+.sidebar-container .wl-window[data-color="blue"] .wl-content {
+    border-left: 1px solid rgba(59, 130, 246, 0.25);
+    background: rgba(59, 130, 246, 0.04);
+}
+.sidebar-container .wl-window[data-color="green"] .wl-content {
+    border-left: 1px solid rgba(34, 197, 94, 0.25);
+    background: rgba(34, 197, 94, 0.04);
+}
+.sidebar-container .wl-window[data-color="purple"] .wl-content {
+    border-left: 1px solid rgba(168, 85, 247, 0.25);
+    background: rgba(168, 85, 247, 0.04);
+}
+.sidebar-container .wl-window[data-color="orange"] .wl-content {
+    border-left: 1px solid rgba(249, 115, 22, 0.25);
+    background: rgba(249, 115, 22, 0.04);
+}
+.sidebar-container .wl-window[data-color="red"] .wl-content {
+    border-left: 1px solid rgba(239, 68, 68, 0.25);
+    background: rgba(239, 68, 68, 0.04);
+}
+.sidebar-container .wl-window[data-color="grey"] .wl-content {
+    border-left: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(148, 163, 184, 0.04);
+}
+.sidebar-container .wl-window[data-color="teal"] .wl-content {
+    border-left: 1px solid rgba(20, 184, 166, 0.25);
+    background: rgba(20, 184, 166, 0.04);
+}
+.sidebar-container .wl-window[data-color="amber"] .wl-content {
+    border-left: 1px solid rgba(245, 158, 11, 0.25);
+    background: rgba(245, 158, 11, 0.04);
+}
+.sidebar-container .wl-window[data-color="indigo"] .wl-content {
+    border-left: 1px solid rgba(99, 102, 241, 0.25);
+    background: rgba(99, 102, 241, 0.04);
+}
+.sidebar-container .wl-window[data-color="yellow"] .wl-content {
+    border-left: 1px solid rgba(234, 179, 8, 0.25);
+    background: rgba(234, 179, 8, 0.04);
+}
+.sidebar-container .wl-window[data-color="brown"] .wl-content {
+    border-left: 1px solid rgba(160, 132, 94, 0.25);
+    background: rgba(160, 132, 94, 0.04);
+}
+.sidebar-container .wl-window[data-color="lime"] .wl-content {
+    border-left: 1px solid rgba(132, 204, 22, 0.25);
+    background: rgba(132, 204, 22, 0.04);
+}
+.sidebar-container .wl-window[data-color="cyan"] .wl-content {
+    border-left: 1px solid rgba(6, 182, 212, 0.25);
+    background: rgba(6, 182, 212, 0.04);
+}
+
+
+/* ===============================================
+   DROP INDICATOR & DOCK ZONE HIGHLIGHT
+   =============================================== */
+
+.sidebar-drop-indicator {
+    height: 2px;
+    background: rgba(59, 130, 246, 0.5);
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* Highlight sidebar body when a window is dragged over it */
+.sidebar-container.dock-highlight {
+    outline: 2px dashed rgba(59, 130, 246, 0.4);
+    outline-offset: -2px;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+/* ===============================================
+   ANIMATED SIDEBAR HEADER ICON
+   =============================================== */
+
+.sidebar-header-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-right: 4px;
+    color: rgba(255, 255, 255, 1);
+    position: relative;
+}
+
+.wl-sidebar.wl-light .sidebar-header-icon {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+@keyframes tt-wind {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-6deg); }
+    70% { transform: rotate(5deg); }
+}
+
+/* ===============================================
+   SIDEBAR HEADER SCANLINE ANIMATION
+   =============================================== */
+
+.wl-sidebar-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+    animation: header-scanline 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.wl-sidebar.wl-light .wl-sidebar-header::after {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.03), transparent);
+}
+
+@keyframes header-scanline {
+    0% { left: -60%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* ===============================================
+   DOCK ZONE — Full blue overlay while dragging any detached window
+   =============================================== */
+
+.wl-sidebar.dock-zone::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(59, 130, 246, 0.12);
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ===============================================
+   DOCK ZONE — Intensified when hovering over sidebar
+   =============================================== */
+
+.sidebar-container.dock-highlight {
+    outline: 1px solid rgba(59, 130, 246, 0.3);
+    outline-offset: -1px;
+    background: rgba(59, 130, 246, 0.06);
+    animation: dock-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dock-pulse {
+    0%, 100% { outline-color: rgba(59, 130, 246, 0.2); }
+    50% { outline-color: rgba(59, 130, 246, 0.5); }
+}
+
+/* Collapsed sidebar dock highlight */
+.wl-sidebar.wl-sidebar-collapsed.dock-target {
+    outline: 1px solid rgba(59, 130, 246, 0.5);
+    outline-offset: -1px;
+    background: rgba(59, 130, 246, 0.1) !important;
+    animation: dock-pulse 1.5s ease-in-out infinite;
+}
+
+/* ===============================================
+   DROP INDICATOR — GLOW ENHANCEMENT
+   =============================================== */
+
+.sidebar-drop-indicator {
+    height: 3px;
+    background: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4), 0 0 2px rgba(59, 130, 246, 0.6);
+    margin: 0;
+    flex-shrink: 0;
+    animation: drop-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes drop-glow {
+    0%, 100% { box-shadow: 0 0 6px rgba(59, 130, 246, 0.3), 0 0 2px rgba(59, 130, 246, 0.5); }
+    50% { box-shadow: 0 0 12px rgba(59, 130, 246, 0.5), 0 0 3px rgba(59, 130, 246, 0.7); }
+}
+
+/* ===============================================
+   REDUCED MOTION
+   =============================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .sidebar-header-icon .tt-upper,
+    .sidebar-header-icon .tt-lower,
+    .wl-sidebar-header::after,
+    .sidebar-container.dock-highlight,
+    .wl-sidebar.wl-sidebar-collapsed.dock-target,
+    .sidebar-drop-indicator {
+        animation: none;
+    }
+}

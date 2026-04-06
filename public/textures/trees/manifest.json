@@ -1,0 +1,32 @@
+{
+  "species": {
+    "oak": {
+      "leaf": [
+        "/textures/trees/leaves/oak/oak_alb.webp"
+      ],
+      "barkAlbedo": [
+        "/textures/trees/bark/oak/oak_alb.webp"
+      ],
+      "barkNormal": [
+        "/textures/trees/bark/oak/oak_nrm.webp"
+      ],
+      "barkDisplacement": [
+        "/textures/trees/bark/oak/oak_disp.webp"
+      ]
+    },
+    "conifer": {
+      "leaf": [
+        "/textures/trees/leaves/conifer/conifer_alb.webp"
+      ],
+      "barkAlbedo": [
+        "/textures/trees/bark/conifer/conifer_alb.webp"
+      ],
+      "barkNormal": [
+        "/textures/trees/bark/conifer/conifer_nrm.webp"
+      ],
+      "barkDisplacement": [
+        "/textures/trees/bark/conifer/conifer_disp.webp"
+      ]
+    }
+  }
+}
