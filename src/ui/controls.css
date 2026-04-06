@@ -45,6 +45,28 @@
    SLIDER
    =============================================== */
 
+.tt-slider-wrap {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+/* Transparent overlay intercepts all pointer/touch events.
+   touch-action: pan-y lets the browser scroll vertically while
+   our JS handles horizontal slider drags. */
+.tt-slider-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    touch-action: pan-y;
+    cursor: pointer;
+}
+
 .tt-slider {
     flex: 1;
     -webkit-appearance: none;
@@ -55,7 +77,8 @@
     outline: none;
     cursor: pointer;
     min-width: 0;
-    touch-action: pan-y;
+    touch-action: none;
+    pointer-events: none;
 }
 
 .tt-slider::-webkit-slider-thumb {

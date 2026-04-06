@@ -79,7 +79,10 @@ export function sliderRow(
         });
     });
 
-    // Gesture gate: prevent slider from capturing vertical drags meant for scrolling
+    // Gesture gate: overlay intercepts all pointer events so the native
+    // <input type="range"> never fights for touch control.  touch-action:
+    // pan-y on the overlay lets the browser scroll vertically, while our
+    // JS handles horizontal slider drags manually.
     const THRESHOLD = 5;
 
     function updateSliderFromPointer(clientX: number) {
@@ -94,20 +97,26 @@ export function sliderRow(
         onChange?.(clamped);
     }
 
-    slider.addEventListener('pointerdown', (e) => {
+    const sliderWrap = document.createElement('div');
+    sliderWrap.className = 'tt-slider-wrap';
+
+    const overlay = document.createElement('div');
+    overlay.className = 'tt-slider-overlay';
+
+    overlay.addEventListener('pointerdown', (e) => {
         const pid = e.pointerId;
         const startX = e.clientX;
         const startY = e.clientY;
         let resolved = false;
         let dragging = false;
 
-        // Prevent native range-input drag; touch-action: pan-y still allows scrolling
-        e.preventDefault();
+        // Do NOT call e.preventDefault() — that would block touch-action: pan-y
+        // from letting the browser scroll vertically.
 
         const cleanup = () => {
             window.removeEventListener('pointermove', onMove);
             window.removeEventListener('pointerup', onUp);
-            slider.removeEventListener('pointercancel', onCancel);
+            overlay.removeEventListener('pointercancel', onCancel);
         };
 
         const onMove = (ev: PointerEvent) => {
@@ -127,14 +136,14 @@ export function sliderRow(
         const onUp = (ev: PointerEvent) => {
             if (ev.pointerId !== pid) return;
             cleanup();
-            // If never moved past threshold, treat as a click
+            // If never moved past threshold, treat as a tap → jump to position
             if (!resolved) {
                 updateSliderFromPointer(startX);
             }
         };
 
-        // Browser fires pointercancel when touch-action: pan-y takes over for
-        // scrolling — no pointerup follows, so we must clean up here.
+        // Browser fires pointercancel when touch-action: pan-y kicks in for
+        // vertical scrolling — no pointerup follows, so clean up here.
         const onCancel = (ev: PointerEvent) => {
             if (ev.pointerId !== pid) return;
             cleanup();
@@ -142,9 +151,10 @@ export function sliderRow(
 
         window.addEventListener('pointermove', onMove);
         window.addEventListener('pointerup', onUp);
-        slider.addEventListener('pointercancel', onCancel);
+        overlay.addEventListener('pointercancel', onCancel);
     });
 
+    // Keep native input handler for keyboard interaction (arrow keys when focused)
     slider.addEventListener('input', () => {
         const v = parseFloat(slider.value);
         params[key] = v;
@@ -152,7 +162,9 @@ export function sliderRow(
         onChange?.(v);
     });
 
-    widget.appendChild(slider);
+    sliderWrap.appendChild(slider);
+    sliderWrap.appendChild(overlay);
+    widget.appendChild(sliderWrap);
     widget.appendChild(valSpan);
     row.appendChild(lbl);
     row.appendChild(widget);
